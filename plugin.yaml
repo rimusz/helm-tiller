@@ -1,6 +1,6 @@
 ---
 name: "tiller"
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "2.9.1"
 usage: "Please see https://github.com/rimusz/helm-tiller for usage"
 description: "Start a Tiller server locally"

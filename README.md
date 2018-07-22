@@ -14,7 +14,7 @@ $ helm plugin install https://github.com/rimusz/helm-tiller
 Install a specific version:
 
 ```shell
-$ helm plugin install https://github.com/rimusz/helm-tiller --version 0.1.0
+$ helm plugin install https://github.com/rimusz/helm-tiller --version 0.1.1
 ```
 
 ## Usage
