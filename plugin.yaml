@@ -1,0 +1,12 @@
+---
+name: "tiller"
+version: "0.1.0"
+appVersion: "2.9.1"
+usage: "Please see https://github.com/rimusz/helm-tiller for usage"
+description: "Start a Tiller server locally"
+command: "$HELM_PLUGIN_DIR/scripts/tiller.sh"
+useTunnel: false
+
+hooks:
+  install: "cd $HELM_PLUGIN_DIR; ./scripts/install.sh"
+  update: "cd $HELM_PLUGIN_DIR; ./scripts/install.sh"
