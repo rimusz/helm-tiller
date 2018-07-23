@@ -8,4 +8,4 @@ useTunnel: false
 
 hooks:
   install: "cd $HELM_PLUGIN_DIR; ./scripts/install.sh"
-  update: "cd $HELM_PLUGIN_DIR; ./scripts/install.sh"
+  update: "cd $HELM_PLUGIN_DIR; ./scripts/install.sh update"
