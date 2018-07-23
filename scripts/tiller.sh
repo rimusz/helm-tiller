@@ -34,10 +34,12 @@ start)
     export TILLER_NAMESPACE=${2}
     export HELM_HOST=localhost:44134
     ./bin/tiller --storage=secret & helm version
+    echo "Tiller namespace: $TILLER_NAMESPACE "
     /bin/bash
   else
     export HELM_HOST=localhost:44134
     ./bin/tiller --storage=secret & helm version
+    echo "Tiller namespace: kube-system "
     /bin/bash
   fi
   ;;
