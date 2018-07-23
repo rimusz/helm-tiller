@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -e
 
 cd $HELM_PLUGIN_DIR
 
