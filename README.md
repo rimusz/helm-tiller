@@ -2,6 +2,7 @@
 
 [Helm](https://helm.sh) plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally.
 
+**Note:** For a better security Tiller plugin comes with preset storage as `Secret`.
 
 ## Installation
 
@@ -11,10 +12,10 @@ Install the latest version:
 $ helm plugin install https://github.com/rimusz/helm-tiller
 ```
 
-Install a specific version:
+Install a specific Tiller version:
 
 ```shell
-$ helm plugin install https://github.com/rimusz/helm-tiller --version 0.1.1
+$ helm plugin install https://github.com/rimusz/helm-tiller --version 2.9.1
 ```
 
 ## Usage
@@ -25,11 +26,13 @@ Start Tiller:
 $ helm tiller start
 ```
 
-Start Tiller with the set namespace and storage Secret:
+Default working Tiller `namespace` is `kube-system`, you can set another one:
 
 ```shell
-$ helm tiller start my_tiller_namespace secret
+$ helm tiller start my_tiller_namespace
 ```
+
+> **Tip**: You can have many Tiller namespaces, e.g. one per team, just pass the name as an argument when you starting Tiller.
 
 Stop Tiller:
 

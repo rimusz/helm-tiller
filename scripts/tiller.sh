@@ -1,38 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash -x
 
-COMMAND=$1
-
-case $COMMAND in
-start)
-  NAMESPACE=$1
-  STORAGE=$2
-  if [[ -n "$1" && -n "$2" ]]
-  then
-    # Set namespace and storage driver
-    export TILLER_NAMESPACE=${NAMESPACE}
-    ../bin/tiller --storage=${STORAGE} & helm version
-  elif [[ -n "$1" && -z "$2" ]]
-  then
-    # Set namespace
-    export TILLER_NAMESPACE=${NAMESPACE}
-    ../bin/tiller & helm version
-  elif [[ -n "$2" && -z "$1" ]]
-  then
-    # Set storage driver
-    ../bin/tiller --storage=${STORAGE} & helm version
-  else
-      ../bin/tiller & helm version
-  fi
-
-  ;;
-stop)
-  echo "Stopping Tiller..."
-  pkill -f tiller
-  ;;
-*)
-  usage
-  ;;
-esac
+cd $HELM_PLUGIN_DIR
 
 function usage() {
   if [[ ! -z "$1" ]]; then
@@ -42,16 +10,43 @@ function usage() {
   Helm plugin for using Tiller locally
 
   Usage:
-    helm tiller start [tiller_namespace] [tiller_storage]
+    helm tiller start [tiller_namespace]
     helm tiller stop
 
   Available Commands:
     start   Start Tiller
     stop    Stop Tiller
 
-  Example to use with the set namespace and storage Secret:
+  Example use with the set namespace:
 
-    $ helm tiller start my_tiller_namespace secret
+    $ helm tiller start my_tiller_namespace
 
   EOF
 }
+
+COMMAND=$1
+
+case $COMMAND in
+start)
+  if [[ -n "$2" ]]
+  then
+    # Set namespace
+    export TILLER_NAMESPACE=${2}
+    export HELM_HOST=localhost:44134
+    ./bin/tiller --storage=secret & helm version
+    /bin/bash
+  else
+    export HELM_HOST=localhost:44134
+    ./bin/tiller --storage=secret & helm version
+    /bin/bash
+  fi
+  ;;
+stop)
+  pwd
+  echo "Stopping Tiller..."
+  pkill -f tiller
+  ;;
+*)
+  usage
+  ;;
+esac

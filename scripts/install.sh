@@ -1,9 +1,8 @@
 #!/bin/bash -e
 
 cd $HELM_PLUGIN_DIR
-TILLER_VERSION="$(cat plugin.yaml | grep "appVersion" | cut -d '"' -f 2)"
 VERSION="$(cat plugin.yaml | grep "version" | cut -d '"' -f 2)"
-echo "Installing Tiller plugin ${VERSION} ..."
+echo "Installing Tiller plugin v${VERSION} ..."
 
 # Find correct archive name
 unameOut="$(uname -s)"
@@ -15,7 +14,7 @@ case "${unameOut}" in
 esac
 
 ARCH=`uname -m`
-URL=https://storage.googleapis.com/helm-tiller/tiller-v${TILLER_VERSION}_${OS}_x86_64.tgz
+URL=https://storage.googleapis.com/helm-tiller/tiller-v${VERSION}_${OS}_x86_64.tgz
 
 if [ "$URL" = "" ]
 then
