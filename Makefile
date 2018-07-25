@@ -1,6 +1,6 @@
-TILLER_VERSION						?= 2.9.1
-TILLER_DOCKER_REGISTRY 	  ?= gcr.io/kubernetes-helm/tiller
-GCS_BUCKET								?= helm-tiller
+TILLER_VERSION 		?= 2.9.1
+TILLER_DOCKER_REGISTRY 	?= gcr.io/kubernetes-helm/tiller
+GCS_BUCKET		?= helm-tiller
 
 .PHONY: build
 build:

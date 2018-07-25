@@ -35,14 +35,3 @@ rm -rf tiller
 
 # Make tgz files public
 gsutil acl ch -u AllUsers:R gs://${GCS_BUCKET}/*
-
-cd $HELM_PLUGIN_DIR
-
-# Update plugin version
-unamestr=`uname`
-if [[ "$unamestr" == "Linux" ]]
-then
-  sed -i 's/\(version: \)\(.*\)/\1''"'$TILLER_VERSION'"''/' plugin.yaml
-else
-  sed -i "" 's/\(version: \)\(.*\)/\1''"'$TILLER_VERSION'"''/' plugin.yaml
-fi
