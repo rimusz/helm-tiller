@@ -1,4 +1,4 @@
-# Run Helm Tiller locally aka Tillerless Helm
+# Tillerless Helm plugin
 
 [Helm](https://helm.sh) plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally and in your CI/CD pipelines.
 
