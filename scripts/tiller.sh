@@ -32,6 +32,32 @@ function usage() {
   EOF
 }
 
+check_helm() {
+  # Check if helm is installed
+  if ! command -v helm >/dev/null 2>&1; then
+    echo "Helm client is not installed!"
+    exit 0
+  fi
+}
+
+check_tiller() {
+  INSTALLED_HELM=$(helm version -c --short | awk -F[:+] '{print $2}' | cut -d ' ' -f 2)
+  echo "Installed Helm version $INSTALLED_HELM"
+  # check if the binary exists
+  if [ ! -f ./bin/tiller ]; then
+    INSTALLED_TILLER=v0.0.0
+  else
+    INSTALLED_TILLER=$(./bin/tiller --version)
+    echo "Installed Tiller version $INSTALLED_TILLER"
+  fi
+  # check if tiller and helm versions match
+  if [[ "${INSTALLED_HELM}" == "${INSTALLED_TILLER}" ]]; then
+    echo "Helm and Tiller are the same version!"
+  else
+    ./scripts/install.sh $INSTALLED_HELM
+  fi
+}
+
 helm_env() {
   if [[ -n "$1" ]]
   then
@@ -60,11 +86,15 @@ fi
 
 case $COMMAND in
 start)
+  check_helm
+  check_tiller
   eval '$(helm_env "$@")'
   start_tiller
   bash
   ;;
 run)
+  check_helm
+  check_tiller
   start_args=()
   args=()
   while [[ $# -gt 0 ]]; do
