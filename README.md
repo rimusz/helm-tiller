@@ -58,13 +58,13 @@ $ helm tiller start my_tiller_namespace
 
 > **Tip**: You can have many Tiller namespaces, e.g. one per team, just pass the name as an argument when you starting Tiller.
 
-Start Tiller and run arbitrary command within the environment:
+Example use of `tiller run`, that starts/stops `tiller` before/after the specified command:
 
+```shell
+$ helm tiller run helm list
+$ helm tiller run my_tiller_namespace -- helm list
+$ helm tiller run my_tiller_namespace -- bash -c 'echo running helm; helm list'
 ```
-$ `helm tiller run my_tiller_namespace -- bash -c 'your bash script'
-```
-
-> **Tip**: You can basically run any `bash` command within the environment created by `helm tiller start`.
 
 Stop Tiller:
 
