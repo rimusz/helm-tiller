@@ -28,19 +28,43 @@ $ helm plugin install https://github.com/rimusz/helm-tiller --version 2.9.1
 
 ## Usage
 
+Usage:
+
+```  
+$ helm tiller start [tiller_namespace]
+$ helm tiller stop
+$ helm tiller run [tiller_namespace] -- [command] [args]
+```
+
+Available Commands:
+
+```
+start   Start Tiller
+run     Start Tiller and run arbitrary command within the environment
+stop    Stop Tiller
+```
+
 Start Tiller:
 
 ```shell
 $ helm tiller start
 ```
 
-Default working Tiller `namespace` is `kube-system`, you can set another one:
+The default working Tiller `namespace` is `kube-system`, you can set another one:
 
 ```shell
 $ helm tiller start my_tiller_namespace
 ```
 
 > **Tip**: You can have many Tiller namespaces, e.g. one per team, just pass the name as an argument when you starting Tiller.
+
+Start Tiller and run arbitrary command within the environment:
+
+```
+$ `helm tiller run my_tiller_namespace -- bash -c 'your bash script'
+```
+
+> **Tip**: You can basically run any `bash` command within the environment created by `helm tiller start`.
 
 Stop Tiller:
 
