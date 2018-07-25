@@ -12,12 +12,6 @@ Install the latest version:
 $ helm plugin install https://github.com/rimusz/helm-tiller
 ```
 
-Install a specific Tiller version:
-
-```shell
-$ helm plugin install https://github.com/rimusz/helm-tiller --version 2.9.1
-```
-
 ## Usage
 
 Usage:
