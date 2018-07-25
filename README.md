@@ -30,13 +30,13 @@ $ helm plugin install https://github.com/rimusz/helm-tiller --version 2.9.1
 
 Usage:
 
-```  
+```shell
 $ helm tiller start [tiller_namespace]
 $ helm tiller stop
 $ helm tiller run [tiller_namespace] -- [command] [args]
 ```
 
-Available Commands:
+Available commands:
 
 ```
 start   Start Tiller
@@ -58,12 +58,12 @@ $ helm tiller start my_tiller_namespace
 
 > **Tip**: You can have many Tiller namespaces, e.g. one per team, just pass the name as an argument when you starting Tiller.
 
-Example use of `tiller run`, that starts/stops `tiller` before/after the specified command:
+Examples use of `tiller run`, that starts/stops `tiller` before/after the specified command:
 
 ```shell
 $ helm tiller run helm list
-$ helm tiller run my_tiller_namespace -- helm list
-$ helm tiller run my_tiller_namespace -- bash -c 'echo running helm; helm list'
+$ helm tiller run my-tiller-namespace -- helm list
+$ helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
 ```
 
 Stop Tiller:
