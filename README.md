@@ -1,6 +1,6 @@
 # Run Helm Tiller locally aka Tillerless Helm
 
-[Helm](https://helm.sh) plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally.
+[Helm](https://helm.sh) plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally and in your CI/CD pipelines.
 
 **Note:** For a better security Tiller plugin comes with preset storage as `Secret`.
 
