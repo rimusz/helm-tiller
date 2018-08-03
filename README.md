@@ -58,9 +58,25 @@ Stop Tiller:
 $ helm tiller stop
 ```
 
-## Build and publish Tiller binaries
+## Tiller binaries
 
-To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS` bucket:
+### Build patched Tiller binaries and publish them
+
+**Note:** Currently `tiller` does not support `kubeconfig` files which use user authentication via `auth-provider`.
+There is `tiller` PR [#4426](https://github.com/helm/helm/pull/4426) which hopefully will be merged soon and new `tiller`
+version `2.10` will not be needed to be patched anymore.
+
+To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to `GCS` bucket run on your Mac:
+
+```shell
+$ TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build-patch
+```
+
+**Note:** Also you still need to use this approach for all pre `v2.10` `tiller` releases.
+
+### Build/retrieve Tiller binaries and publish them
+
+To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS` bucket run on your Mac:
 
 ```shell
 $ TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build
