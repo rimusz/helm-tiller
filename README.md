@@ -63,7 +63,7 @@ $ helm tiller stop
 ### Build patched Tiller binaries and publish them
 
 **Note:** Currently `tiller` does not support `kubeconfig` files which use user authentication via `auth-provider`.
-The `tiller` fix PR [#4426](https://github.com/helm/helm/pull/4426) was merged and it will make its way into v2.11 Helm release.
+The `tiller` fix PR [#4426](https://github.com/helm/helm/pull/4426) was merged and it will make its way into v2.10 Helm release.
 
 To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to `GCS` bucket run on your Mac:
 
