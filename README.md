@@ -58,6 +58,28 @@ Stop Tiller:
 $ helm tiller stop
 ```
 
+Handy `bash` aliases for use locally:
+
+```
+alias hh="helm tiller run helm"
+alias hr="helm tiller run"
+alias ht="helm tiller start"
+alias hts="helm tiller stop"
+```
+
+Examples of alias use:
+
+```shell
+# helm tiller run helm list
+$ hh ls
+
+# helm tiller run my-tiller-namespace -- helm list
+$ hr my-tiller-namespace -- helm list
+
+# helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
+$ hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
+```
+
 ## Tiller binaries
 
 ### Build patched Tiller binaries and publish them
