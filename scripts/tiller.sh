@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+CURRETNT_FOLDER=$(pwd)
+
 cd "$HELM_PLUGIN_DIR"
 
 function usage() {
@@ -72,6 +74,11 @@ start_tiller() {
   echo "Tiller namespace: $TILLER_NAMESPACE"
 }
 
+run_tiller() {
+  ./bin/tiller --storage=secret &
+  cd "${CURRETNT_FOLDER}"
+}
+
 stop_tiller() {
   echo "Stopping Tiller..."
   pkill -f ./bin/tiller
@@ -90,6 +97,7 @@ start)
   check_tiller
   eval '$(helm_env "$@")'
   start_tiller
+  cd "${CURRETNT_FOLDER}"
   bash
   ;;
 run)
@@ -106,7 +114,7 @@ run)
   trap stop_tiller EXIT
   echo args="${args[@]}"
   eval '$(helm_env "${start_args[@]}")'
-  start_tiller "${start_args[@]}"
+  run_tiller "${start_args[@]}"
   "${args[@]}"
   ;;
 stop)
