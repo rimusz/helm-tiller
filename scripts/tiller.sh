@@ -70,12 +70,12 @@ helm_env() {
 }
 
 start_tiller() {
-  ./bin/tiller --storage=secret & helm version
+  ./bin/tiller --storage=secret --listen=localhost:44134 & helm version
   echo "Tiller namespace: $TILLER_NAMESPACE"
 }
 
 run_tiller() {
-  ./bin/tiller --storage=secret &
+  ./bin/tiller --storage=secret --listen=localhost:44134 &
   cd "${CURRETNT_FOLDER}"
 }
 
