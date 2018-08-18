@@ -92,8 +92,7 @@ $ TILLER_VERSION=2.10.0 GCS_BUCKET=my_bucket make build
 
 ### Build patched Tiller binaries and publish them
 
-**Note:** Currently `tiller` does not support `kubeconfig` files which use user authentication via `auth-provider`.
-The `tiller` fix PR [#4426](https://github.com/helm/helm/pull/4426) was merged and it will make its way into v2.10 Helm release.
+**Note:** `Tiller`in pre `v2.10` does not support kubeconfig files which use user authentication via `auth-provider`, so you need to use this approach for all pre `v2.10` `tiller` releases.
 
 To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to `GCS` bucket run on your Mac:
 
@@ -101,4 +100,3 @@ To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to 
 $ TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build-patch
 ```
 
-**Note:** Also you still need to use this approach for all pre `v2.10` `tiller` releases.
