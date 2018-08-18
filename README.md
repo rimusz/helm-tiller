@@ -82,6 +82,14 @@ $ hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
 
 ## Tiller binaries
 
+### Build/retrieve Tiller binaries and publish them
+
+To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS` bucket run on your Mac:
+
+```shell
+$ TILLER_VERSION=2.10.0 GCS_BUCKET=my_bucket make build
+```
+
 ### Build patched Tiller binaries and publish them
 
 **Note:** Currently `tiller` does not support `kubeconfig` files which use user authentication via `auth-provider`.
@@ -93,12 +101,4 @@ To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to 
 $ TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build-patch
 ```
 
-**Note:** Also you still need to use this approach for all pre `v2.11` `tiller` releases.
-
-### Build/retrieve Tiller binaries and publish them
-
-To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS` bucket run on your Mac:
-
-```shell
-$ TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build
-```
+**Note:** Also you still need to use this approach for all pre `v2.10` `tiller` releases.
