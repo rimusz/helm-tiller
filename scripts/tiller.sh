@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+
+set -o errexit
 
 CURRETNT_FOLDER=$(pwd)
 
