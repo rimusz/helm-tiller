@@ -18,6 +18,7 @@ Usage:
 
 ```shell
 $ helm tiller start [tiller_namespace]
+$ helm tiller start-ci [tiller_namespace]
 $ helm tiller stop
 $ helm tiller run [tiller_namespace] -- [command] [args]
 ```
@@ -25,9 +26,10 @@ $ helm tiller run [tiller_namespace] -- [command] [args]
 Available commands:
 
 ```
-start   Start Tiller
-run     Start Tiller and run arbitrary command within the environment
-stop    Stop Tiller
+start     Start Tiller
+start-ci  Start Tiller without opening new bash shell
+run       Start Tiller and run arbitrary command within the environment
+stop      Stop Tiller
 ```
 
 Start Tiller:
@@ -99,4 +101,3 @@ To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to 
 ```shell
 $ TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build-patch
 ```
-

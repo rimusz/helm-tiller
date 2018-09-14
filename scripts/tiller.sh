@@ -102,6 +102,12 @@ start)
   cd "${CURRETNT_FOLDER}"
   bash
   ;;
+start-ci)
+  check_helm
+  check_tiller
+  eval '$(helm_env "$@")'
+  start_tiller
+  ;;
 run)
   check_helm
   check_tiller
