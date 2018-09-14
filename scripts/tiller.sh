@@ -77,6 +77,12 @@ start_tiller() {
   echo "Tiller namespace: $TILLER_NAMESPACE"
 }
 
+start_tiller_ci() {
+  echo "Starting Tiller..."
+  { ./bin/tiller --storage=secret & } 2>/dev/null
+  echo "Tiller namespace: $TILLER_NAMESPACE"
+}
+
 run_tiller() {
   echo "Starting Tiller..."
   { ./bin/tiller --storage=secret --listen=localhost:44134 & } 2>/dev/null
@@ -108,7 +114,7 @@ start-ci)
   check_helm
   check_tiller
   eval '$(helm_env "$@")'
-  start_tiller
+  start_tiller_ci
   ;;
 run)
   check_helm
