@@ -57,7 +57,7 @@ $ helm tiller start-ci
 $ export HELM_HOST=localhost:44134
 ```
 
-Then your `helm` will know where to connect to Tiller and you do not need to make any changes CI pipelines.
+Then your `helm` will know where to connect to Tiller and you do not need to make any changes in your CI pipelines.
 
 
 And when you done stop the Tiller:
