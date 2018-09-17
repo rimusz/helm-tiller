@@ -18,7 +18,7 @@ Usage:
 
 ```shell
 $ helm tiller start [tiller_namespace]
-$ helm tiller start-ci [tiller_namespace]
+$ helm tiller start-ci [tiller_namespace] (without new bash shell)
 $ helm tiller stop
 $ helm tiller run [tiller_namespace] -- [command] [args]
 ```
