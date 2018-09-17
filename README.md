@@ -32,7 +32,9 @@ run       Start Tiller and run arbitrary command within the environment
 stop      Stop Tiller
 ```
 
-Start Tiller:
+### Tiller start examples
+
+Start Tiller with pre-set `bash` shell `HELM_HOST=localhost:44134`, it is handy to use locally:
 
 ```shell
 $ helm tiller start
@@ -46,6 +48,26 @@ $ helm tiller start my_tiller_namespace
 
 > **Tip**: You can have many Tiller namespaces, e.g. one per team, just pass the name as an argument when you starting Tiller.
 
+In CI pipelines you do not really need pre-set bash to be opened, so you can use:
+
+```shell
+$ helm tiller start-ci
+$ export HELM_HOST=localhost:44134
+```
+
+Then your `helm` will know where to connect to Tiller and you do not need to make any changes CI pipelines.
+
+
+And when you done stop the Tiller:
+
+```shell
+$ helm tiller stop
+```
+
+### Tiller run examples
+
+Another option for CI workflows.
+
 Examples use of `tiller run`, that starts/stops `tiller` before/after the specified command:
 
 ```shell
@@ -54,13 +76,7 @@ $ helm tiller run my-tiller-namespace -- helm list
 $ helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
 ```
 
-Stop Tiller:
-
-```shell
-$ helm tiller stop
-```
-
-Handy `bash` aliases for use locally:
+Handy `bash` aliases for use `Tillerless` locally:
 
 ```
 alias hh="helm tiller run helm"
