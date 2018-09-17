@@ -2,6 +2,8 @@
 
 [Helm](https://helm.sh) plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally and in your CI/CD pipelines.
 
+My blog [post](https://rimusz.net/tillerless-helm/) on why `Tilless Helm` is needed and what it solves.
+
 **Note:** For a better security Tiller plugin comes with preset storage as `Secret`.
 
 ## Installation
