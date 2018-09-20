@@ -2,7 +2,7 @@
 
 set -o errexit
 
-CURRETNT_FOLDER=$(pwd)
+CURRENT_FOLDER=$(pwd)
 
 cd "$HELM_PLUGIN_DIR"
 
@@ -14,15 +14,18 @@ function usage() {
   Helm plugin for using Tiller locally
 
   Usage:
+    helm tiller install
     helm tiller start [tiller_namespace]
     helm tiller start-ci [tiller_namespace] (without new bash shell)
     helm tiller stop
     helm tiller run [tiller_namespace] -- [command] [args]
 
   Available Commands:
-    start   Start Tiller
-    run     Start Tiller and run arbitrary command within the environment
-    stop    Stop Tiller
+    install   Install Tiller
+    start     Start Tiller
+    start-ci  Start Tiller without opening new bash shell
+    run       Start Tiller and run arbitrary command within the environment
+    stop      Stop Tiller
 
   Example use with the set namespace:
 
@@ -45,7 +48,7 @@ check_helm() {
   fi
 }
 
-check_tiller() {
+check_install_tiller() {
   INSTALLED_HELM=$(helm version -c --short | awk -F[:+] '{print $2}' | cut -d ' ' -f 2)
   echo "Installed Helm version $INSTALLED_HELM"
   # check if the tiller binary exists
@@ -89,7 +92,7 @@ start_tiller() {
 run_tiller() {
   echo "Starting Tiller..."
   { ./bin/tiller --storage=secret --listen=localhost:44134 & } 2>/dev/null
-  cd "${CURRETNT_FOLDER}"
+  cd "${CURRENT_FOLDER}"
 }
 
 stop_tiller() {
@@ -105,23 +108,27 @@ if [[ ! -z "$1" ]]; then
 fi
 
 case $COMMAND in
+install)
+  check_helm
+  check_install_tiller
+    ;;
 start)
   check_helm
-  check_tiller
+  check_install_tiller
   eval '$(helm_env "$@")'
   start_tiller
-  cd "${CURRETNT_FOLDER}"
+  cd "${CURRENT_FOLDER}"
   bash
   ;;
 start-ci)
   check_helm
-  check_tiller
+  check_install_tiller
   eval '$(helm_env "$@")'
   start_tiller
   ;;
 run)
   check_helm
-  check_tiller
+  check_install_tiller
   start_args=()
   args=()
   while [[ $# -gt 0 ]]; do

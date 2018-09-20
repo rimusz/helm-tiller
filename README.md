@@ -19,6 +19,7 @@ helm plugin install https://github.com/rimusz/helm-tiller
 Usage:
 
 ```shell
+helm tiller install
 helm tiller start [tiller_namespace]
 helm tiller start-ci [tiller_namespace] (without new bash shell)
 helm tiller stop
@@ -28,6 +29,7 @@ helm tiller run [tiller_namespace] -- [command] [args]
 Available commands:
 
 ```
+install Install Tiller
 start     Start Tiller
 start-ci  Start Tiller without opening new bash shell
 run       Start Tiller and run arbitrary command within the environment
@@ -58,7 +60,6 @@ export HELM_HOST=localhost:44134
 ```
 
 Then your `helm` will know where to connect to Tiller and you do not need to make any changes in your CI pipelines.
-
 
 And when you done stop the Tiller:
 
