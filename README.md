@@ -103,7 +103,13 @@ hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
 
 ## Tiller binaries
 
-### Build/retrieve Tiller binaries and publish them
+### Tiller binaries for v2.11 Helm and above versions
+
+Beginning of Helm v2.11 release, `helm` archive file comes packed with `tiller` binary as well.
+Plugin will check the version and download the right archive file. No more building/retrieving of
+`tiller` binary is needed anymore.
+
+### Build/retrieve Tiller binaries and publish them for v2.10 Helm
 
 To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS` bucket run on your Mac:
 
@@ -111,7 +117,7 @@ To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS`
 TILLER_VERSION=2.10.0 GCS_BUCKET=my_bucket make build
 ```
 
-### Build patched Tiller binaries and publish them
+### Build patched Tiller binaries and publish them for pre v2.10 Helm
 
 **Note:** `Tiller`in pre `v2.10` does not support kubeconfig files which use user authentication via `auth-provider`, so you need to use this approach for all pre `v2.10` `tiller` releases.
 

@@ -13,11 +13,21 @@ case "${unameOut}" in
     *)          OS="UNKNOWN:${unameOut}"
 esac
 
-VERSION="$1"
-echo "Installing Tiller ${VERSION} ..."
+VERSION="${1//v/}"
+
+echo "Installing Tiller v${VERSION} ..."
 
 ARCH=$(uname -m)
-URL=https://storage.googleapis.com/helm-tiller/tiller-"${VERSION}"_"${OS}"_x86_64.tgz
+
+COMPARE_VERSION=$(./scripts/semver compare $VERSION 2.11.0)
+
+if [[ ${COMPARE_VERSION} -ge 0 ]]; then
+  # Helm v2.11 and versions above
+  URL=https://storage.googleapis.com/kubernetes-helm/helm-v"${VERSION}"-"${OS,,}"-amd64.tar.gz
+else
+  # Helm v2.10 and versions below
+  URL=https://storage.googleapis.com/helm-tiller/tiller-v"${VERSION}"_"${OS}"_x86_64.tgz
+fi
 
 if [ "$URL" = "" ]
 then
@@ -40,4 +50,10 @@ else
 fi
 
 # Install to bin
-rm -rf bin && mkdir bin && tar xzvf "$FILENAME" -C bin > /dev/null && rm -f "$FILENAME"
+if [[ ${COMPARE_VERSION} -ge 0 ]]; then
+  # Helm v2.11 and versions above
+  rm -rf bin && mkdir bin && tar xvf "$FILENAME" -C bin --strip=1 "${OS,,}"-amd64/tiller > /dev/null && rm -f "$FILENAME"
+else
+  # Helm v2.10 and versions below
+  rm -rf bin && mkdir bin && tar xzvf "$FILENAME" -C bin > /dev/null && rm -f "$FILENAME"
+fi
