@@ -17,7 +17,7 @@ VERSION="$1"
 echo "Installing Tiller ${VERSION} ..."
 
 ARCH=$(uname -m)
-URL=https://storage.googleapis.com/helm-tiller/tiller-$"{VERSION}"_"${OS}"_x86_64.tgz
+URL=https://storage.googleapis.com/helm-tiller/tiller-"${VERSION}"_"${OS}"_x86_64.tgz
 
 if [ "$URL" = "" ]
 then
