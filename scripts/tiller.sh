@@ -48,15 +48,16 @@ check_helm() {
 check_tiller() {
   INSTALLED_HELM=$(helm version -c --short | awk -F[:+] '{print $2}' | cut -d ' ' -f 2)
   echo "Installed Helm version $INSTALLED_HELM"
-  # check if the binary exists
+  # check if the tiller binary exists
   if [ ! -f ./bin/tiller ]; then
-    EXISTING_TILLER=$(command -v tiller)
-    if [[ -n "${EXISTING_TILLER}" ]]; then
-      	cp "${EXISTING_TILLER}" ./bin/
-      	INSTALLED_TILLER=$(./bin/tiller --version)
-      	echo "Copied found binary of Tiller version $INSTALLED_TILLER"
+    # check if tiller binary is already installed in the path
+    if  command -v tiller >/dev/null 2>&1; then
+      EXISTING_TILLER=$(command -v tiller)
+      cp "${EXISTING_TILLER}" ./bin/
+      INSTALLED_TILLER=$(./bin/tiller --version)
+      echo "Copied found binary of Tiller version $INSTALLED_TILLER"
     else
-  	    INSTALLED_TILLER=v0.0.0
+      INSTALLED_TILLER=v0.0.0
     fi
   else
     INSTALLED_TILLER=$(./bin/tiller --version)
@@ -66,7 +67,7 @@ check_tiller() {
   if [[ "${INSTALLED_HELM}" == "${INSTALLED_TILLER}" ]]; then
     echo "Helm and Tiller are the same version!"
   else
-    ./scripts/install.sh $INSTALLED_HELM
+    ./scripts/install.sh "$INSTALLED_HELM"
   fi
 }
 
