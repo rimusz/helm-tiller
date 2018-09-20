@@ -11,7 +11,7 @@ My blog [post](https://rimusz.net/tillerless-helm/) on why `Tilless Helm` is nee
 Install the latest version:
 
 ```shell
-$ helm plugin install https://github.com/rimusz/helm-tiller
+helm plugin install https://github.com/rimusz/helm-tiller
 ```
 
 ## Usage
@@ -19,10 +19,10 @@ $ helm plugin install https://github.com/rimusz/helm-tiller
 Usage:
 
 ```shell
-$ helm tiller start [tiller_namespace]
-$ helm tiller start-ci [tiller_namespace] (without new bash shell)
-$ helm tiller stop
-$ helm tiller run [tiller_namespace] -- [command] [args]
+helm tiller start [tiller_namespace]
+helm tiller start-ci [tiller_namespace] (without new bash shell)
+helm tiller stop
+helm tiller run [tiller_namespace] -- [command] [args]
 ```
 
 Available commands:
@@ -39,7 +39,7 @@ stop      Stop Tiller
 Start Tiller with pre-set `bash` shell `HELM_HOST=localhost:44134`, it is handy to use locally:
 
 ```shell
-$ helm tiller start
+helm tiller start
 ```
 
 The default working Tiller `namespace` is `kube-system`, you can set another one:
@@ -53,8 +53,8 @@ $ helm tiller start my_tiller_namespace
 In CI pipelines you do not really need pre-set bash to be opened, so you can use:
 
 ```shell
-$ helm tiller start-ci
-$ export HELM_HOST=localhost:44134
+helm tiller start-ci
+export HELM_HOST=localhost:44134
 ```
 
 Then your `helm` will know where to connect to Tiller and you do not need to make any changes in your CI pipelines.
@@ -63,7 +63,7 @@ Then your `helm` will know where to connect to Tiller and you do not need to mak
 And when you done stop the Tiller:
 
 ```shell
-$ helm tiller stop
+helm tiller stop
 ```
 
 ### Tiller run examples
@@ -73,9 +73,9 @@ Another option for CI workflows.
 Examples use of `tiller run`, that starts/stops `tiller` before/after the specified command:
 
 ```shell
-$ helm tiller run helm list
-$ helm tiller run my-tiller-namespace -- helm list
-$ helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
+helm tiller run helm list
+helm tiller run my-tiller-namespace -- helm list
+helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
 ```
 
 Handy `bash` aliases for use `Tillerless` locally:
@@ -91,13 +91,13 @@ Examples of alias use:
 
 ```shell
 # helm tiller run helm list
-$ hh ls
+hh ls
 
 # helm tiller run my-tiller-namespace -- helm list
-$ hr my-tiller-namespace -- helm list
+hr my-tiller-namespace -- helm list
 
 # helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
-$ hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
+hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
 ```
 
 ## Tiller binaries
@@ -107,7 +107,7 @@ $ hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
 To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS` bucket run on your Mac:
 
 ```shell
-$ TILLER_VERSION=2.10.0 GCS_BUCKET=my_bucket make build
+TILLER_VERSION=2.10.0 GCS_BUCKET=my_bucket make build
 ```
 
 ### Build patched Tiller binaries and publish them
@@ -117,5 +117,5 @@ $ TILLER_VERSION=2.10.0 GCS_BUCKET=my_bucket make build
 To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to `GCS` bucket run on your Mac:
 
 ```shell
-$ TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build-patch
+TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build-patch
 ```

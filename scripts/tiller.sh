@@ -50,7 +50,14 @@ check_tiller() {
   echo "Installed Helm version $INSTALLED_HELM"
   # check if the binary exists
   if [ ! -f ./bin/tiller ]; then
-    INSTALLED_TILLER=v0.0.0
+    EXISTING_TILLER=$(command -v tiller)
+    if [[ -n "${EXISTING_TILLER}" ]]; then
+      	cp "${EXISTING_TILLER}" ./bin/
+      	INSTALLED_TILLER=$(./bin/tiller --version)
+      	echo "Copied found binary of Tiller version $INSTALLED_TILLER"
+    else
+  	    INSTALLED_TILLER=v0.0.0
+    fi
   else
     INSTALLED_TILLER=$(./bin/tiller --version)
     echo "Installed Tiller version $INSTALLED_TILLER"
