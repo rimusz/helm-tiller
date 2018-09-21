@@ -18,7 +18,7 @@ VERSION="${1//v/}"
 echo "Installing Tiller v${VERSION} ..."
 
 ARCH=$(uname -m)
-
+# shellcheck disable=SC2086
 COMPARE_VERSION=$(./scripts/semver compare $VERSION 2.11.0)
 
 if [[ ${COMPARE_VERSION} -ge 0 ]]; then
@@ -34,7 +34,7 @@ then
     echo "Unsupported OS / architecture: ${OS}_${ARCH}"
     exit 1
 fi
-
+# shellcheck disable=SC1117
 FILENAME=$(echo "${URL}" | sed -e "s/^.*\///g")
 
 # Download archive

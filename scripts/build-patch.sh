@@ -22,6 +22,7 @@ else
   SED='sed -i ""'
 fi
 # Patch tiller.go file
+# shellcheck disable=SC2086
 "${SED}" '/\"google.golang.org\/grpc\/keepalive\"/!{p;d;};n;r '${HELM_PLUGIN_DIR}'/scripts/tiller.patch' cmd/tiller/tiller.go
 rm -f 'cmd/tiller/tiller.go""'
 #

@@ -56,9 +56,10 @@ check_install_tiller() {
     # check if tiller binary is already installed in the path
     if  command -v tiller >/dev/null 2>&1; then
       EXISTING_TILLER=$(command -v tiller)
+      mkdir -p ./bin
       cp "${EXISTING_TILLER}" ./bin/
       INSTALLED_TILLER=$(./bin/tiller --version)
-      echo "Copied found binary of Tiller version $INSTALLED_TILLER"
+      echo "Copied found $EXISTING_TILLER to helm-tiller/bin"
     else
       INSTALLED_TILLER=v0.0.0
     fi
@@ -138,6 +139,7 @@ run)
     esac
   done
   trap stop_tiller EXIT
+  # shellcheck disable=SC2145
   echo args="${args[@]}"
   eval '$(helm_env "${start_args[@]}")'
   run_tiller "${start_args[@]}"

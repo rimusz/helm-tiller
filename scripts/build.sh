@@ -2,6 +2,7 @@
 
 set -o errexit
 
+# shellcheck disable=SC2034
 HELM_PLUGIN_DIR=$(pwd)
 
 # Build Darwin binary
