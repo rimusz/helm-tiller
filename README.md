@@ -29,7 +29,7 @@ helm tiller run [tiller_namespace] -- [command] [args]
 Available commands:
 
 ```
-install Install Tiller
+install   Manually install/upgrade Tiller binary
 start     Start Tiller
 start-ci  Start Tiller without opening new bash shell
 run       Start Tiller and run arbitrary command within the environment
