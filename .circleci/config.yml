@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: koalaman/shellcheck-alpine
+    steps:
+      - checkout
+      - run:
+          name: lint
+          command: |
+            shellcheck -x scripts/build-patch.sh
+            shellcheck -x scripts/build.sh
+            shellcheck -x scripts/install.sh
+            shellcheck -x scripts/semver
+            shellcheck -x scripts/tiller.sh
