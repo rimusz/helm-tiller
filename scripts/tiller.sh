@@ -7,7 +7,7 @@ CURRENT_FOLDER=$(pwd)
 cd "$HELM_PLUGIN_DIR"
 
 function usage() {
-  if [[ ! -z "$1" ]]; then
+  if [[ -n "$1" ]]; then
     printf "%s\\n\\n" "$1"
   fi
   cat <<'  EOF'
@@ -21,7 +21,7 @@ function usage() {
     helm tiller run [tiller_namespace] -- [command] [args]
 
   Available Commands:
-    install   Install Tiller
+    install   Manually install/upgrade Tiller binary
     start     Start Tiller
     start-ci  Start Tiller without opening new bash shell
     run       Start Tiller and run arbitrary command within the environment
@@ -104,7 +104,7 @@ stop_tiller() {
 COMMAND=$1
 
 # do shift only if some argument is provided
-if [[ ! -z "$1" ]]; then
+if [[ -n "$1" ]]; then
   shift
 fi
 
