@@ -139,10 +139,11 @@ run)
     esac
   done
   trap stop_tiller EXIT
-  # shellcheck disable=SC2145
-  echo args="${args[@]}"
   eval '$(helm_env "${start_args[@]}")'
   run_tiller "${start_args[@]}"
+  # shellcheck disable=SC2145
+  echo Running: "${args[@]}"
+  echo
   "${args[@]}"
   ;;
 stop)
