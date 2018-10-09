@@ -120,6 +120,7 @@ start)
   start_tiller
   cd "${CURRENT_FOLDER}"
   # open user's preferred shell
+  # shellcheck disable=SC2236
   if [[ ! -z "$SHELL" ]]; then
       $SHELL
   else
