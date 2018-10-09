@@ -119,7 +119,12 @@ start)
   eval '$(helm_env "$@")'
   start_tiller
   cd "${CURRENT_FOLDER}"
-  bash
+  # open user's preferred shell
+  if [[ ! -z "$SHELL" ]]; then
+      $SHELL
+  else
+      bash
+  fi
   ;;
 start-ci)
   check_helm
