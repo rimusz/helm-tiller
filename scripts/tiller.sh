@@ -16,14 +16,14 @@ function usage() {
   Usage:
     helm tiller install
     helm tiller start [tiller_namespace]
-    helm tiller start-ci [tiller_namespace] (without new bash shell)
+    helm tiller start-ci [tiller_namespace]
     helm tiller stop
     helm tiller run [tiller_namespace] -- [command] [args]
 
   Available Commands:
     install   Manually install/upgrade Tiller binary
-    start     Start Tiller
-    start-ci  Start Tiller without opening new bash shell
+    start     Start Tiller and open new pre-set shell
+    start-ci  Start Tiller without opening new shell
     run       Start Tiller and run arbitrary command within the environment
     stop      Stop Tiller
 
@@ -119,7 +119,13 @@ start)
   eval '$(helm_env "$@")'
   start_tiller
   cd "${CURRENT_FOLDER}"
-  bash
+  # open user's preferred shell
+  # shellcheck disable=SC2236
+  if [[ ! -z "$SHELL" ]]; then
+      $SHELL
+  else
+      bash
+  fi
   ;;
 start-ci)
   check_helm
