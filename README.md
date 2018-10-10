@@ -33,6 +33,8 @@ run       Start Tiller and run arbitrary command within the environment
 stop      Stop Tiller
 ```
 
+In automation cases you might want to silence plugin messages with setting `HELM_TILLER_SILENT=true`, then only helm output will be seen.
+
 ### Tiller start examples
 
 Start Tiller with pre-set `bash` shell `HELM_HOST=localhost:44134`, it is handy to use locally:
