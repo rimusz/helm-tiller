@@ -2,6 +2,8 @@
 
 set -o errexit
 
+: "${HELM_TILLER_SILENT:='false'}"
+
 CURRENT_FOLDER=$(pwd)
 
 cd "$HELM_PLUGIN_DIR"
@@ -50,7 +52,9 @@ check_helm() {
 
 check_install_tiller() {
   INSTALLED_HELM=$(helm version -c --short | awk -F[:+] '{print $2}' | cut -d ' ' -f 2)
-  echo "Installed Helm version $INSTALLED_HELM"
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+      echo "Installed Helm version $INSTALLED_HELM"
+  fi
   # check if the tiller binary exists
   if [ ! -f ./bin/tiller ]; then
     # check if tiller binary is already installed in the path
@@ -65,11 +69,15 @@ check_install_tiller() {
     fi
   else
     INSTALLED_TILLER=$(./bin/tiller --version)
-    echo "Installed Tiller version $INSTALLED_TILLER"
+    if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+        echo "Installed Tiller version $INSTALLED_TILLER"
+    fi
   fi
   # check if tiller and helm versions match
   if [[ "${INSTALLED_HELM}" == "${INSTALLED_TILLER}" ]]; then
-    echo "Helm and Tiller are the same version!"
+    if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+        echo "Helm and Tiller are the same version!"
+    fi
   else
     ./scripts/install.sh "$INSTALLED_HELM"
   fi
@@ -85,19 +93,27 @@ helm_env() {
 }
 
 start_tiller() {
-  echo "Starting Tiller..."
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Starting Tiller..."
+  fi
   { ./bin/tiller --storage=secret --listen=localhost:44134 & } 2>/dev/null
-  echo "Tiller namespace: $TILLER_NAMESPACE"
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Tiller namespace: $TILLER_NAMESPACE"
+  fi
 }
 
 run_tiller() {
-  echo "Starting Tiller..."
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Starting Tiller..."
+  fi
   { ./bin/tiller --storage=secret --listen=localhost:44134 & } 2>/dev/null
   cd "${CURRENT_FOLDER}"
 }
 
 stop_tiller() {
-  echo "Stopping Tiller..."
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Stopping Tiller..."
+  fi
   pkill -f ./bin/tiller
 }
 
@@ -148,8 +164,10 @@ run)
   eval '$(helm_env "${start_args[@]}")'
   run_tiller "${start_args[@]}"
   # shellcheck disable=SC2145
-  echo Running: "${args[@]}"
-  echo
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo Running: "${args[@]}"
+    echo
+  fi
   "${args[@]}"
   ;;
 stop)
