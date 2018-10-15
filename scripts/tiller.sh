@@ -3,6 +3,7 @@
 set -o errexit
 
 : "${HELM_TILLER_SILENT:='false'}"
+: "${HELM_TILLER_PORT:=44134}"
 
 CURRENT_FOLDER=$(pwd)
 
@@ -89,14 +90,14 @@ helm_env() {
     # Set namespace
     echo export TILLER_NAMESPACE="${1}"
   fi
-  echo export HELM_HOST=localhost:44134
+  echo export HELM_HOST=localhost:${HELM_TILLER_PORT}
 }
 
 start_tiller() {
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Starting Tiller..."
   fi
-  { ./bin/tiller --storage=secret --listen=localhost:44134 & } 2>/dev/null
+  { ./bin/tiller --storage=secret --listen=localhost:${HELM_TILLER_PORT} & } 2>/dev/null
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Tiller namespace: $TILLER_NAMESPACE"
   fi
@@ -106,7 +107,7 @@ run_tiller() {
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Starting Tiller..."
   fi
-  { ./bin/tiller --storage=secret --listen=localhost:44134 & } 2>/dev/null
+  { ./bin/tiller --storage=secret --listen=localhost:${HELM_TILLER_PORT} & } 2>/dev/null
   cd "${CURRENT_FOLDER}"
 }
 
