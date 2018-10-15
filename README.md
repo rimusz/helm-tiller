@@ -34,6 +34,7 @@ stop      Stop Tiller
 ```
 
 In automation cases you might want to silence plugin messages with setting `HELM_TILLER_SILENT=true`, then only helm output will be seen.
+You can change default Tiller port by setting it with `HELM_TILLER_PORT=44135`.
 
 ### Tiller start examples
 
