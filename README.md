@@ -33,8 +33,10 @@ run       Start Tiller and run arbitrary command within the environment
 stop      Stop Tiller
 ```
 
-In automation cases you might want to silence plugin messages with setting `HELM_TILLER_SILENT=true`, then only helm output will be seen.
-You can change default Tiller port by setting it with `HELM_TILLER_PORT=44135`.
+Available environment variables:
+
+- To silence plugin messages with setting `HELM_TILLER_SILENT=true`, then only helm cli output will be seen.
+- To change default Tiller port by setting it with `HELM_TILLER_PORT=44135`.
 
 ### Tiller start examples
 
