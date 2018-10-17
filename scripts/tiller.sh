@@ -2,7 +2,7 @@
 
 set -o errexit
 
-: "${HELM_TILLER_SILENT:='false'}"
+: "${HELM_TILLER_SILENT:=false}"
 : "${HELM_TILLER_PORT:=44134}"
 
 CURRENT_FOLDER=$(pwd)
