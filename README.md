@@ -35,12 +35,15 @@ stop      Stop Tiller
 
 Available environment variables:
 
-- To silence plugin messages with setting `HELM_TILLER_SILENT=true`, then only helm cli output will be seen.
-- To change default Tiller port by setting it with `HELM_TILLER_PORT=44135`.
+- To silence plugin messages by setting `HELM_TILLER_SILENT=true`, then only `helm` cli output will be seen.
+- To change default Tiller port by setting `HELM_TILLER_PORT=44140`.
+- To store Tiller logs in `$HOME/.helm/plugins/helm-tiller/logs` by setting `HELM_TILLER_LOGS=true`.
+- You can set a specific folder for Tiller logs by setting `HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs`.
+- To change default Tiller maximum number of releases kept in release history by setting e.g. to 20 `HELM_TILLER_HISTORY_MAX=20`.
 
 ### Tiller start examples
 
-Start Tiller with pre-set `bash` shell `HELM_HOST=localhost:44134`, it is handy to use locally:
+Start Tiller with pre-set `bash` shell `HELM_HOST=127.0.0.1:44134`, it is handy to use locally:
 
 ```console
 helm tiller start
@@ -58,7 +61,7 @@ In CI pipelines you do not really need pre-set bash to be opened, so you can use
 
 ```console
 helm tiller start-ci
-export HELM_HOST=localhost:44134
+export HELM_HOST=127.0.0.1:44134
 ```
 
 Then your `helm` will know where to connect to Tiller and you do not need to make any changes in your CI pipelines.
