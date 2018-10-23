@@ -73,7 +73,9 @@ check_install_tiller() {
       mkdir -p ./logs
       cp "${EXISTING_TILLER}" ./bin/
       INSTALLED_TILLER=$(./bin/tiller --version)
-      echo "Copied found $EXISTING_TILLER to helm-tiller/bin"
+      if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+          echo "Copied found $EXISTING_TILLER to helm-tiller/bin"
+      fi
     else
       INSTALLED_TILLER=v0.0.0
     fi
