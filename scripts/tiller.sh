@@ -33,12 +33,17 @@ function usage() {
     run       Start Tiller and run arbitrary command within the environment
     stop      Stop Tiller
 
-  Example use with the set namespace:
+  Available environment variables:
+    'HELM_TILLER_SILENT=true' - silence plugin specific messages, only `helm` cli output will be printed.
+    'HELM_TILLER_PORT=44140' - change Tiller port.
+    'HELM_TILLER_LOGS=true' - store Tiller logs in '$HOME/.helm/plugins/helm-tiller/logs'.
+    'HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs' - set a specific folder/file for Tiller logs.
+    'HELM_TILLER_HISTORY_MAX=20' - change maximum number of releases kept in release history by Tiller.
 
+  Example use with the set namespace:
     $ helm tiller start my-tiller-namespace
 
   Example use of `run`, that starts/stops tiller before/after the specified command:
-
     $ helm tiller run helm list
     $ helm tiller run my-tiller-namespace -- helm list
     $ helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
