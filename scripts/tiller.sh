@@ -4,6 +4,9 @@ set -o errexit
 
 : "${HELM_TILLER_SILENT:=false}"
 : "${HELM_TILLER_PORT:=44134}"
+: "${HELM_TILLER_LOGS:=false}"
+: "${HELM_TILLER_LOGS_DIR:=/dev/null}"
+: "${HELM_TILLER_HISTORY_MAX:=0}"
 
 CURRENT_FOLDER=$(pwd)
 
@@ -62,6 +65,7 @@ check_install_tiller() {
     if  command -v tiller >/dev/null 2>&1; then
       EXISTING_TILLER=$(command -v tiller)
       mkdir -p ./bin
+      mkdir -p ./logs
       cp "${EXISTING_TILLER}" ./bin/
       INSTALLED_TILLER=$(./bin/tiller --version)
       echo "Copied found $EXISTING_TILLER to helm-tiller/bin"
@@ -93,21 +97,25 @@ helm_env() {
   echo export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
 }
 
-start_tiller() {
+tiller_env() {
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Starting Tiller..."
   fi
-  { ./bin/tiller --storage=secret --listen=127.0.0.1:${HELM_TILLER_PORT} & } 2>/dev/null
+  if [[ "${HELM_TILLER_LOGS}" == "true" ]]; then
+    export HELM_TILLER_LOGS_DIR="$HELM_PLUGIN_DIR/logs/tiller.logs"
+  fi
+}
+
+start_tiller() {
+  tiller_env
+  { ./bin/tiller --storage=secret --listen=127.0.0.1:${HELM_TILLER_PORT} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Tiller namespace: $TILLER_NAMESPACE"
   fi
 }
 
 run_tiller() {
-  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
-    echo "Starting Tiller..."
-  fi
-  { ./bin/tiller --storage=secret --listen=127.0.0.1:${HELM_TILLER_PORT} & } 2>/dev/null
+  start_tiller
   cd "${CURRENT_FOLDER}"
 }
 
