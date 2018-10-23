@@ -108,7 +108,7 @@ tiller_env() {
 
 start_tiller() {
   tiller_env
-  { ./bin/tiller --storage=secret --listen=127.0.0.1:${HELM_TILLER_PORT} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>${HELM_TILLER_LOGS_DIR}
+  { ./bin/tiller --storage=secret --listen=127.0.0.1:${HELM_TILLER_PORT} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Tiller namespace: $TILLER_NAMESPACE"
   fi
