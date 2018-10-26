@@ -4,6 +4,7 @@ set -o errexit
 
 : "${HELM_TILLER_SILENT:=false}"
 : "${HELM_TILLER_PORT:=44134}"
+: "${HELM_TILLER_STORAGE:=secret}"
 : "${HELM_TILLER_LOGS:=false}"
 : "${HELM_TILLER_LOGS_DIR:=/dev/null}"
 : "${HELM_TILLER_HISTORY_MAX:=0}"
@@ -35,7 +36,8 @@ function usage() {
 
   Available environment variables:
     'HELM_TILLER_SILENT=true' - silence plugin specific messages, only `helm` cli output will be printed.
-    'HELM_TILLER_PORT=44140' - change Tiller port.
+    'HELM_TILLER_PORT=44140' - change Tiller port, default is `44134`.
+    'HELM_TILLER_STORAGE=configmap' - change Tiller storage to `configmap`, default is `secret`.
     'HELM_TILLER_LOGS=true' - store Tiller logs in '$HOME/.helm/plugins/helm-tiller/logs'.
     'HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs' - set a specific folder/file for Tiller logs.
     'HELM_TILLER_HISTORY_MAX=20' - change maximum number of releases kept in release history by Tiller.
@@ -115,7 +117,7 @@ tiller_env() {
 
 start_tiller() {
   tiller_env
-  { ./bin/tiller --storage=secret --listen=127.0.0.1:${HELM_TILLER_PORT} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
+  { ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Tiller namespace: $TILLER_NAMESPACE"
   fi
