@@ -8,7 +8,11 @@ My blog [post](https://rimusz.net/tillerless-helm/) on why `Tillerless Helm` is 
 
 ## Installation
 
-Install the latest version:
+Install Helm client as per one of recomended [ways]()https://docs.helm.sh/using_helm/#installing-the-helm-client.
+
+**Note:** Initialize helm with `helm init --client-only`, flag `--client-only` is a must as otherwise you will get `Tiller` installed in to Kubernetes cluster.
+
+Then install the latest plugin version:
 
 ```console
 helm plugin install https://github.com/rimusz/helm-tiller
