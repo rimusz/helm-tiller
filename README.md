@@ -8,7 +8,7 @@ My blog [post](https://rimusz.net/tillerless-helm/) on why `Tillerless Helm` is 
 
 ## Installation
 
-Install Helm client as per one of recomended [ways]()https://docs.helm.sh/using_helm/#installing-the-helm-client.
+Install Helm client as per one of recomended [ways](https://docs.helm.sh/using_helm/#installing-the-helm-client).
 
 **Note:** Initialize helm with `helm init --client-only`, flag `--client-only` is a must as otherwise you will get `Tiller` installed in to Kubernetes cluster.
 
