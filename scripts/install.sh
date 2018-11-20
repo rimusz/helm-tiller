@@ -23,7 +23,7 @@ COMPARE_VERSION=$(./scripts/semver compare $VERSION 2.11.0)
 
 if [[ ${COMPARE_VERSION} -ge 0 ]]; then
   # Helm v2.11 and versions above
-  URL=https://storage.googleapis.com/kubernetes-helm/helm-v"${VERSION}"-"${OS,,}"-amd64.tar.gz
+  URL=https://storage.googleapis.com/kubernetes-helm/helm-v"${VERSION}"-"${OS}"-amd64.tar.gz
 else
   # Helm v2.10 and versions below
   URL=https://storage.googleapis.com/helm-tiller/tiller-v"${VERSION}"_"${OS}"_x86_64.tgz
