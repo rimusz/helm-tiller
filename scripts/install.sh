@@ -28,7 +28,7 @@ if [[ ${COMPARE_VERSION} -ge 0 ]]; then
   URL=https://storage.googleapis.com/kubernetes-helm/helm-v"${VERSION}"-"${os}"-amd64.tar.gz
 else
   # Helm v2.10 and versions below
-  URL=https://storage.googleapis.com/helm-tiller/tiller-v"${VERSION}"_"${os}"_x86_64.tgz
+  URL=https://storage.googleapis.com/helm-tiller/tiller-v"${VERSION}"_"${OS}"_x86_64.tgz
 fi
 
 if [ "$URL" = "" ]
