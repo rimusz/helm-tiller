@@ -48,7 +48,7 @@ then
     wget -q "$URL"
 else
     echo "Need curl or wget"
-    exit -1
+    exit 0
 fi
 
 # Install to bin
