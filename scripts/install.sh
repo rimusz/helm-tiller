@@ -21,6 +21,7 @@ ARCH=$(uname -m)
 # shellcheck disable=SC2086
 COMPARE_VERSION=$(./scripts/semver compare $VERSION 2.11.0)
 
+# shellcheck disable=SC2021
 os="$(echo "${OS}" | tr '[A-Z]' '[a-z]')"
 
 if [[ ${COMPARE_VERSION} -ge 0 ]]; then
