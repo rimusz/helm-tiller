@@ -1,6 +1,6 @@
 ---
 name: "tiller"
-version: "0.6.5"
+version: "0.6.6"
 usage: "Please see https://github.com/rimusz/helm-tiller for usage"
 description: "Start a Tiller server locally, aka Tillerless Helm"
 command: "$HELM_PLUGIN_DIR/scripts/tiller.sh"
