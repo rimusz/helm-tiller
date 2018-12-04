@@ -34,7 +34,7 @@ fi
 if [ "$URL" = "" ]
 then
     echo "Unsupported OS / architecture: ${OS}_${ARCH}"
-    exit 1
+    exit 0
 fi
 # shellcheck disable=SC1117
 FILENAME=$(echo "${URL}" | sed -e "s/^.*\///g")
