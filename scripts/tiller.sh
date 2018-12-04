@@ -7,7 +7,7 @@ set -o errexit
 : "${HELM_TILLER_STORAGE:=secret}"
 : "${HELM_TILLER_LOGS:=false}"
 : "${HELM_TILLER_LOGS_DIR:=/dev/null}"
-: "${HELM_TILLER_HISTORY_MAX:=0}"
+: "${HELM_TILLER_HISTORY_MAX:=20}"
 
 CURRENT_FOLDER=$(pwd)
 
