@@ -31,6 +31,7 @@ function usage() {
     install   Manually install/upgrade Tiller binary
     start     Start Tiller and open new pre-set shell
     start-ci  Start Tiller without opening new shell
+    env       Setup environment variables
     run       Start Tiller and run arbitrary command within the environment
     stop      Stop Tiller
 
@@ -49,6 +50,9 @@ function usage() {
     $ helm tiller run helm list
     $ helm tiller run my-tiller-namespace -- helm list
     $ helm tiller run my-tiller-namespace -- bash -c 'echo running helm; helm list'
+
+  Example use of `env` to set environment variables for start-ci:
+    $ source <(helm tiller env my-tiller-namespace)
 
   EOF
 }
@@ -164,8 +168,12 @@ start)
 start-ci)
   check_helm
   check_install_tiller
-  eval '$(helm_env "$@")'
+  echo "Set the following vars to use tiller:"
+  helm_env "$@"
   start_tiller
+  ;;
+env)
+  helm_env "$@"
   ;;
 run)
   check_helm
