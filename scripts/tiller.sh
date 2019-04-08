@@ -106,8 +106,10 @@ helm_env() {
   then
     # Set namespace
     echo export TILLER_NAMESPACE="${1}"
+    export TILLER_NAMESPACE="${1}"
   fi
   echo export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
+  export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
 }
 
 tiller_env() {
