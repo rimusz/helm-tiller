@@ -107,9 +107,21 @@ helm_env() {
     # Set namespace
     echo export TILLER_NAMESPACE="${1}"
     export TILLER_NAMESPACE="${1}"
+    create_ns $1
   fi
   echo export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
   export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
+}
+
+create_ns() {
+  kubectl get ns $1 &> /dev/null
+
+  if [[ $? -eq 1 ]]
+  then
+    kubectl create ns $1 &> /dev/null
+    kubectl patch ns $1 -p \
+      "{\"metadata\": {\"labels\": {\"name\": \"${1}\"}}}" &> /dev/null
+  fi
 }
 
 tiller_env() {
