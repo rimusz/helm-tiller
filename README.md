@@ -45,6 +45,7 @@ Available environment variables:
 - To store Tiller logs in `$HOME/.helm/plugins/helm-tiller/logs` by setting `HELM_TILLER_LOGS=true`.
 - You can set a specific folder/file for Tiller logs by setting `HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs`.
 - To change default Tiller maximum number of releases kept in release history by setting e.g. to 20 `HELM_TILLER_HISTORY_MAX=20`.
+- To not automatically create a namespace if it is missing by setting `CREATE_NAMESPACE_IF_MISSING=false`.
 
 ### Tiller start examples
 

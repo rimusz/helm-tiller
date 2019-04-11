@@ -8,6 +8,7 @@ set -o errexit
 : "${HELM_TILLER_LOGS:=false}"
 : "${HELM_TILLER_LOGS_DIR:=/dev/null}"
 : "${HELM_TILLER_HISTORY_MAX:=20}"
+: "${CREATE_NAMESPACE_IF_MISSING:=true}"
 
 CURRENT_FOLDER=$(pwd)
 
@@ -42,6 +43,7 @@ function usage() {
     'HELM_TILLER_LOGS=true' - store Tiller logs in '$HOME/.helm/plugins/helm-tiller/logs'.
     'HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs' - set a specific folder/file for Tiller logs.
     'HELM_TILLER_HISTORY_MAX=20' - change maximum number of releases kept in release history by Tiller.
+    'CREATE_NAMESPACE_IF_MISSING=false' - indicate whether the namespace should be created if it does not exist.
 
   Example use with the set namespace:
     $ helm tiller start my-tiller-namespace
@@ -107,7 +109,9 @@ helm_env() {
     # Set namespace
     echo export TILLER_NAMESPACE="${1}"
     export TILLER_NAMESPACE="${1}"
-    create_ns $1
+    if [[ "${CREATE_NAMESPACE_IF_MISSING}" == "true" ]]; then
+      create_ns $1
+    fi
   fi
   echo export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
   export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
