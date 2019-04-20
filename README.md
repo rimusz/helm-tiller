@@ -112,6 +112,32 @@ hr my-tiller-namespace -- helm list
 hr my-tiller-namespace -- bash -c 'echo running helm; helm list'
 ```
 
+### Terraform helm examples
+To use tiller with [terraform-helm-provider](https://www.terraform.io/docs/providers/helm/index.html), use `helm tiller start-ci` and set the helm provider's host to point to the locally started tiller.
+
+```console
+$ helm tiller start-ci
+```
+
+```hcl
+provider "helm" {
+  host = "127.0.0.1:44134"
+  install_tiller = false
+}
+```
+
+This will greatly simplify your usage of `terraform-helm-provider` as there is no longer a need to create service accounts, and deploy tiller along with the problems that come with it.
+
+### Using tiller with Minikube
+While using [Minikube](https://kubernetes.io/docs/setup/minikube/), it is important to stop, and restart tiller after a `minikube delete` and `minikube start`.
+
+```console
+$ minikube delete
+$ minikube start
+$ helm tiller stop
+$ helm tiller start
+```
+
 ## Tiller binaries
 
 ### Tiller binaries for v2.11 Helm and above versions
