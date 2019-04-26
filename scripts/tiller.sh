@@ -109,22 +109,26 @@ helm_env() {
     # Set namespace
     echo export TILLER_NAMESPACE="${1}"
     export TILLER_NAMESPACE="${1}"
-    if [[ "${CREATE_NAMESPACE_IF_MISSING}" == "true" ]]; then
-      create_ns $1
-    fi
   fi
   echo export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
   export HELM_HOST=127.0.0.1:${HELM_TILLER_PORT}
 }
 
 create_ns() {
-  kubectl get ns $1 &> /dev/null
+  if [[ "${CREATE_NAMESPACE_IF_MISSING}" == "true" ]]; then
+    if [[ "$3" == "upgrade" ]] || [[ "$3" == "install" ]]; then
+      echo "Creating tiller namespace (if missing): $1"
+      set +e
+      kubectl get ns $1 &> /dev/null
 
-  if [[ $? -eq 1 ]]
-  then
-    kubectl create ns $1 &> /dev/null
-    kubectl patch ns $1 -p \
-      "{\"metadata\": {\"labels\": {\"name\": \"${1}\"}}}" &> /dev/null
+      if [[ $? -eq 1 ]]
+      then
+        set -e
+        kubectl create ns $1 &> /dev/null
+        kubectl patch ns $1 -p \
+          "{\"metadata\": {\"labels\": {\"name\": \"${1}\"}}}" &> /dev/null
+      fi
+    fi
   fi
 }
 
@@ -206,6 +210,7 @@ run)
   done
   trap stop_tiller EXIT
   eval '$(helm_env "${start_args[@]}")'
+  create_ns "${start_args[@]}" "${args[@]}"
   run_tiller "${start_args[@]}"
   # shellcheck disable=SC2145
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
