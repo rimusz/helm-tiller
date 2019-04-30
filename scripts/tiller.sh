@@ -119,13 +119,13 @@ create_ns() {
     if [[ "$3" == "upgrade" ]] || [[ "$3" == "install" ]]; then
       echo "Creating tiller namespace (if missing): $1"
       set +e
-      kubectl get ns $1 &> /dev/null
+      kubectl get ns "$1" &> /dev/null
 
       if [[ $? -eq 1 ]]
       then
         set -e
-        kubectl create ns $1 &> /dev/null
-        kubectl patch ns $1 -p \
+        kubectl create ns "$1" &> /dev/null
+        kubectl patch ns "$1" -p \
           "{\"metadata\": {\"labels\": {\"name\": \"${1}\"}}}" &> /dev/null
       fi
     fi
