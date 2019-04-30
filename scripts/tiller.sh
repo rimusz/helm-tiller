@@ -186,6 +186,7 @@ start)
   else
       bash
   fi
+  stop_tiller
   ;;
 start-ci)
   check_helm
