@@ -132,12 +132,24 @@ create_ns() {
   fi
 }
 
+tiller_ensure_log_dir() {
+    LOG_DIR="${HELM_TILLER_LOGS_DIR%/*}"
+    if [[ ! -d "${LOG_DIR}" ]]; then
+        echo "Creating folder ${LOG_DIR} for saving tiller logs into ${HELM_TILLER_LOGS_DIR}"
+        mkdir -p ${LOG_DIR}
+    fi
+}
+
 tiller_env() {
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Starting Tiller..."
   fi
   if [[ "${HELM_TILLER_LOGS}" == "true" ]]; then
-    export HELM_TILLER_LOGS_DIR="$HELM_PLUGIN_DIR/logs/tiller.logs"
+    if [[ -z "${HELM_TILLER_LOGS_DIR:-}" ]]; then
+        HELM_TILLER_LOGS_DIR="$HELM_PLUGIN_DIR/logs/tiller.logs"
+    fi
+    export HELM_TILLER_LOGS_DIR
+    tiller_ensure_log_dir
   fi
 }
 
