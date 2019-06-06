@@ -4,6 +4,7 @@ set -o errexit
 
 : "${HELM_TILLER_SILENT:=false}"
 : "${HELM_TILLER_PORT:=44134}"
+: "${HELM_TILLER_PROBE_PORT:=44135}"
 : "${HELM_TILLER_STORAGE:=secret}"
 : "${HELM_TILLER_LOGS:=false}"
 : "${HELM_TILLER_LOGS_DIR:=/dev/null}"
@@ -39,6 +40,7 @@ function usage() {
   Available environment variables:
     'HELM_TILLER_SILENT=true' - silence plugin specific messages, only `helm` cli output will be printed.
     'HELM_TILLER_PORT=44140' - change Tiller port, default is `44134`.
+    'HELM_TILLER_PROBE_PORT=44141' - change Tiller probe port, default is `44135`. Requires Helm >= 2.14.
     'HELM_TILLER_STORAGE=configmap' - change Tiller storage to `configmap`, default is `secret`.
     'HELM_TILLER_LOGS=true' - store Tiller logs in '$HOME/.helm/plugins/helm-tiller/logs'.
     'HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs' - set a specific folder/file for Tiller logs.
@@ -155,7 +157,10 @@ tiller_env() {
 
 start_tiller() {
   tiller_env
-  { ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
+  PROBE_LISTEN_FLAG="--probe-listen=127.0.0.1:${HELM_TILLER_PROBE_PORT}"
+  # check if we have a version that supports the --probe-listen flag
+  ./bin/tiller --help 2>&1 | grep probe-listen > /dev/null || PROBE_LISTEN_FLAG=""
+  { ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} ${PROBE_LISTEN_FLAG} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Tiller namespace: $TILLER_NAMESPACE"
   fi

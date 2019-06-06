@@ -41,6 +41,7 @@ Available environment variables:
 
 - To silence plugin specific messages by setting `HELM_TILLER_SILENT=true`, only `helm` cli output will be printed.
 - To change default Tiller port by setting `HELM_TILLER_PORT=44140`, default is `44134`.
+- To change default Tiller probe port by setting `HELM_TILLER_PROBE_PORT=44141`, default is `44135` - requires Helm >= 2.14.
 - To change Tiller storage to `configmap` by setting `HELM_TILLER_STORAGE=configmap`, default is `secret`.
 - To store Tiller logs in `$HOME/.helm/plugins/helm-tiller/logs` by setting `HELM_TILLER_LOGS=true`.
 - You can set a specific folder/file for Tiller logs by setting `HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs`.
