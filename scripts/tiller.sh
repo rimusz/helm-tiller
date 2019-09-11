@@ -175,7 +175,7 @@ stop_tiller() {
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Stopping Tiller..."
   fi
-  pkill -f ./bin/tiller
+  pkill -9 -f ./bin/tiller
 }
 
 COMMAND=$1
