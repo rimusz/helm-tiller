@@ -1,8 +1,14 @@
 # Tillerless Helm plugin
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![CircleCI](https://circleci.com/gh/rimusz/helm-tiller/tree/master.svg?style=svg)](https://circleci.com/gh/rimusz/helm-tiller/tree/master)
+[![Release](https://img.shields.io/github/release/rimusz/helm-tiller.svg?style=flat-square)](https://github.com/rimusz/helm-tiller/releases/latest)
+
 [Helm](https://helm.sh) plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally and in your CI/CD pipelines.
 
-Check my blog [post](https://rimusz.net/tillerless-helm/) on why `Tillerless Helm` is needed and what it solves.
+Blog post [Tillerless Helm v2](https://rimusz.net/tillerless-helm/) on why `Tillerless Helm` is needed and what it solves.
+
+Check it out my new blog post [How to migrate from Helm v2 to Helm v3](https://rimusz.net/how-to-migrate-from-helm-v2-to-helm-v3) about migratetion from Helm v2 to Helm v3.
 
 **Note:** For a better security Tiller plugin comes with preset storage as `Secret`.
 
@@ -147,13 +153,6 @@ Beginning of Helm v2.11 release, `helm` archive file comes packed with `tiller` 
 Plugin will check the version and download the right archive file. No more building/retrieving of
 `tiller` binary is needed anymore.
 
-### Build/retrieve Tiller binaries and publish them for v2.10 Helm
-
-To build `MacOS` and to retrieve `Linux` binaries and then publish them to `GCS` bucket run on your Mac:
-
-```console
-TILLER_VERSION=2.10.0 GCS_BUCKET=my_bucket make build
-```
 
 ### Build patched Tiller binaries and publish them for pre v2.10 Helm
 
