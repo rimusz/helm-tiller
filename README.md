@@ -10,8 +10,6 @@ Blog post [Tillerless Helm v2](https://rimusz.net/tillerless-helm/) on why `Till
 
 Check it out my new blog post [How to migrate from Helm v2 to Helm v3](https://rimusz.net/how-to-migrate-from-helm-v2-to-helm-v3) about migration from Helm v2 to Helm v3.
 
-**Note:** For a better security Tiller plugin comes with preset storage as `Secret`.
-
 ## Installation
 
 Install Helm client as per one of recomended [ways](https://docs.helm.sh/using_helm/#installing-the-helm-client).
@@ -25,6 +23,8 @@ helm plugin install https://github.com/rimusz/helm-tiller
 ```
 
 ## Usage
+
+**Note:** For a better security Tiller plugin comes with preset storage as `Secret`.
 
 Usage:
 
