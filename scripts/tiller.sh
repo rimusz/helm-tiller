@@ -156,6 +156,10 @@ tiller_env() {
 }
 
 tiller_pid_file() {
+
+  if [ -z "$TMPDIR" ]; then
+    export TMPDIR="/tmp"
+  fi
   echo "$TMPDIR/helm-tiller-${HELM_TILLER_PORT}.pid"
 }
 
