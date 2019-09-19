@@ -155,32 +155,14 @@ tiller_env() {
   fi
 }
 
-tiller_pid_file() {
-
-  if [ -z "$TMPDIR" ]; then
-    export TMPDIR="/tmp"
-  fi
-  echo "$TMPDIR/helm-tiller-${HELM_TILLER_PORT}.pid"
-}
-
-tiller_save_pid() {
-  local tiller_pid="$1"
-  local tiller_pid_file
-  tiller_pid_file=$(tiller_pid_file)
-  echo "$tiller_pid" > "$tiller_pid_file"
-}
-
 start_tiller() {
   tiller_env
   PROBE_LISTEN_FLAG="--probe-listen=127.0.0.1:${HELM_TILLER_PROBE_PORT}"
   # check if we have a version that supports the --probe-listen flag
   ./bin/tiller --help 2>&1 | grep probe-listen > /dev/null || PROBE_LISTEN_FLAG=""
   # shellcheck disable=SC2188
-  (
-    ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} ${PROBE_LISTEN_FLAG} --history-max=${HELM_TILLER_HISTORY_MAX} &
-     tiller_save_pid "$!"
-  ) 2>"${HELM_TILLER_LOGS_DIR}"
- if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+  ( ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} ${PROBE_LISTEN_FLAG} --history-max=${HELM_TILLER_HISTORY_MAX} & 2>"${HELM_TILLER_LOGS_DIR}")
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Tiller namespace: $TILLER_NAMESPACE"
   fi
 }
@@ -194,16 +176,7 @@ stop_tiller() {
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Stopping Tiller..."
   fi
-  local tiller_pid_file
-  tiller_pid_file=$(tiller_pid_file)
-  if ! [ -f "$tiller_pid_file" ]; then
-      echo "can not find tiller pid file $tiller_pid_file" 1>&2
-      exit 1
-  fi
-  local tiller_pid
-  tiller_pid="$(cat "$tiller_pid_file")"
-  kill -9 "$tiller_pid"
-  rm -f "$tiller_pid_file"
+  pkill -9 -f ./bin/tiller
 }
 
 COMMAND=$1
