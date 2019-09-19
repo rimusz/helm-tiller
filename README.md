@@ -12,7 +12,7 @@ Check it out my new blog post [How to migrate from Helm v2 to Helm v3](https://r
 
 ## Installation
 
-Install Helm client as per one of recomended [ways](https://docs.helm.sh/using_helm/#installing-the-helm-client).
+Install Helm client as per one of recommended [ways](https://docs.helm.sh/using_helm/#installing-the-helm-client).
 
 **Note:** Initialize helm with `helm init --client-only`, flag `--client-only` is a must as otherwise you will get `Tiller` installed in to Kubernetes cluster.
 
@@ -143,23 +143,4 @@ $ minikube delete
 $ minikube start
 $ helm tiller stop
 $ helm tiller start
-```
-
-## Tiller binaries
-
-### Tiller binaries for v2.11 Helm and above versions
-
-Beginning of Helm v2.11 release, `helm` archive file comes packed with `tiller` binary as well.
-Plugin will check the version and download the right archive file. No more building/retrieving of
-`tiller` binary is needed anymore.
-
-
-### Build patched Tiller binaries and publish them for pre v2.10 Helm
-
-**Note:** `Tiller`in pre `v2.10` does not support kubeconfig files which use user authentication via `auth-provider`, so you need to use this approach for all pre `v2.10` `tiller` releases.
-
-To build patched `MacOS` and `Linux` `tiller` binaries and then publish them to `GCS` bucket run on your Mac:
-
-```console
-TILLER_VERSION=2.9.1 GCS_BUCKET=my_bucket make build-patch
 ```
