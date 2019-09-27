@@ -160,8 +160,7 @@ start_tiller() {
   PROBE_LISTEN_FLAG="--probe-listen=127.0.0.1:${HELM_TILLER_PROBE_PORT}"
   # check if we have a version that supports the --probe-listen flag
   ./bin/tiller --help 2>&1 | grep probe-listen > /dev/null || PROBE_LISTEN_FLAG=""
-  # shellcheck disable=SC2188
-  ( ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} ${PROBE_LISTEN_FLAG} --history-max=${HELM_TILLER_HISTORY_MAX} & 2>"${HELM_TILLER_LOGS_DIR}")
+  { ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} ${PROBE_LISTEN_FLAG} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Tiller namespace: $TILLER_NAMESPACE"
   fi
