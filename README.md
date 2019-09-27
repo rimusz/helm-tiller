@@ -4,7 +4,7 @@
 [![CircleCI](https://circleci.com/gh/rimusz/helm-tiller/tree/master.svg?style=svg)](https://circleci.com/gh/rimusz/helm-tiller/tree/master)
 [![Release](https://img.shields.io/github/release/rimusz/helm-tiller.svg?style=flat-square)](https://github.com/rimusz/helm-tiller/releases/latest)
 
-[Helm](https://helm.sh) plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally and in your CI/CD pipelines.
+[Helm](https://helm.sh) v2 plugin for using [Tiller](https://docs.helm.sh/using_helm/#installing-tiller) locally and in your CI/CD pipelines.
 
 Blog post [Tillerless Helm v2](https://rimusz.net/tillerless-helm/) on why `Tillerless Helm` is needed and what it solves.
 
