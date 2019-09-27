@@ -1,4 +1,4 @@
-# Tillerless Helm plugin
+# Tillerless Helm v2 plugin
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![CircleCI](https://circleci.com/gh/rimusz/helm-tiller/tree/master.svg?style=svg)](https://circleci.com/gh/rimusz/helm-tiller/tree/master)
