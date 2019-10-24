@@ -174,8 +174,10 @@ run_tiller() {
 stop_tiller() {
   if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
     echo "Stopping Tiller..."
+    pkill -9 -f ./bin/tiller 
+  else
+    pkill -9 -f ./bin/tiller &> /dev/null
   fi
-  pkill -9 -f ./bin/tiller
 }
 
 COMMAND=$1
@@ -208,8 +210,12 @@ start)
 start-ci)
   check_helm
   check_install_tiller
-  echo "Set the following vars to use tiller:"
-  helm_env "$@"
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Set the following vars to use tiller:"
+    helm_env "$@"
+  else
+    helm_env "$@" &> /dev/null
+  fi
   start_tiller
   ;;
 env)
