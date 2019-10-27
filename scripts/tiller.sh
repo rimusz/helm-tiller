@@ -13,11 +13,6 @@ set -o errexit
 
 CURRENT_FOLDER=$(pwd)
 
-REDIRECT=/dev/tty
-if [[ "${HELM_TILLER_SILENT}" != "false" ]]; then
-  REDIRECT=/dev/null
-fi
-
 cd "$HELM_PLUGIN_DIR"
 
 function usage() {
@@ -76,7 +71,9 @@ check_helm() {
 
 check_install_tiller() {
   INSTALLED_HELM=$(helm version -c --short | awk -F[:+] '{print $2}' | cut -d ' ' -f 2)
-  echo "Installed Helm version $INSTALLED_HELM" &> $REDIRECT
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+      echo "Installed Helm version $INSTALLED_HELM"
+  fi
   # check if the tiller binary exists
   if [ ! -f ./bin/tiller ]; then
     # check if tiller binary is already installed in the path
@@ -86,19 +83,25 @@ check_install_tiller() {
       mkdir -p ./logs
       cp "${EXISTING_TILLER}" ./bin/
       INSTALLED_TILLER=$(./bin/tiller --version)
-      echo "Copied found $EXISTING_TILLER to helm-tiller/bin" &> $REDIRECT
+      if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+          echo "Copied found $EXISTING_TILLER to helm-tiller/bin"
+      fi
     else
       INSTALLED_TILLER=v0.0.0
     fi
   else
     INSTALLED_TILLER=$(./bin/tiller --version)
-    echo "Installed Tiller version $INSTALLED_TILLER" &> $REDIRECT
+    if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+        echo "Installed Tiller version $INSTALLED_TILLER"
+    fi
   fi
   # check if tiller and helm versions match
   if [[ "${INSTALLED_HELM}" == "${INSTALLED_TILLER}" ]]; then
-    echo "Helm and Tiller are the same version!" &> $REDIRECT
+    if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+        echo "Helm and Tiller are the same version!"
+    fi
   else
-    ./scripts/install.sh "$INSTALLED_HELM" &> $REDIRECT
+    ./scripts/install.sh "$INSTALLED_HELM"
   fi
 }
 
@@ -116,7 +119,7 @@ helm_env() {
 create_ns() {
   if [[ "${CREATE_NAMESPACE_IF_MISSING}" == "true" ]]; then
     if [[ "$3" == "upgrade" ]] || [[ "$3" == "install" ]]; then
-      echo "Creating tiller namespace (if missing): $1" &> $REDIRECT
+      echo "Creating tiller namespace (if missing): $1"
       set +e
       kubectl get ns "$1" &> /dev/null
 
@@ -127,23 +130,25 @@ create_ns() {
         kubectl patch ns "$1" -p \
           "{\"metadata\": {\"labels\": {\"name\": \"${1}\"}}}" &> /dev/null
       fi
-      fi
     fi
-  }
-
-tiller_ensure_log_dir() {
-  LOG_DIR="${HELM_TILLER_LOGS_DIR%/*}"
-  if [[ ! -d "${LOG_DIR}" ]]; then
-    echo "Creating folder ${LOG_DIR} for saving tiller logs into ${HELM_TILLER_LOGS_DIR}" &> $REDIRECT
-    mkdir -p ${LOG_DIR}
   fi
 }
 
+tiller_ensure_log_dir() {
+    LOG_DIR="${HELM_TILLER_LOGS_DIR%/*}"
+    if [[ ! -d "${LOG_DIR}" ]]; then
+        echo "Creating folder ${LOG_DIR} for saving tiller logs into ${HELM_TILLER_LOGS_DIR}"
+        mkdir -p ${LOG_DIR}
+    fi
+}
+
 tiller_env() {
-  echo "Starting Tiller..." &> $REDIRECT
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Starting Tiller..."
+  fi
   if [[ "${HELM_TILLER_LOGS}" == "true" ]]; then
     if [[ -z "${HELM_TILLER_LOGS_DIR:-}" ]]; then
-      HELM_TILLER_LOGS_DIR="$HELM_PLUGIN_DIR/logs/tiller.logs"
+        HELM_TILLER_LOGS_DIR="$HELM_PLUGIN_DIR/logs/tiller.logs"
     fi
     export HELM_TILLER_LOGS_DIR
     tiller_ensure_log_dir
@@ -156,8 +161,10 @@ start_tiller() {
   # check if we have a version that supports the --probe-listen flag
   ./bin/tiller --help 2>&1 | grep probe-listen > /dev/null || PROBE_LISTEN_FLAG=""
   { ./bin/tiller --storage=${HELM_TILLER_STORAGE} --listen=127.0.0.1:${HELM_TILLER_PORT} ${PROBE_LISTEN_FLAG} --history-max=${HELM_TILLER_HISTORY_MAX} & } 2>"${HELM_TILLER_LOGS_DIR}"
-    echo "Tiller namespace: $TILLER_NAMESPACE" &> $REDIRECT
-  }
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Tiller namespace: $TILLER_NAMESPACE"
+  fi
+}
 
 run_tiller() {
   start_tiller
@@ -165,8 +172,12 @@ run_tiller() {
 }
 
 stop_tiller() {
-  echo "Stopping Tiller..." &> $REDIRECT
-  pkill -9 -f ./bin/tiller  &> $REDIRECT
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Stopping Tiller..."
+    pkill -9 -f ./bin/tiller 
+  else
+    pkill -9 -f ./bin/tiller &> /dev/null
+  fi
 }
 
 COMMAND=$1
@@ -177,58 +188,65 @@ if [[ -n "$1" ]]; then
 fi
 
 case $COMMAND in
-  install)
-    check_helm
-    check_install_tiller
+install)
+  check_helm
+  check_install_tiller
     ;;
-  start)
-    check_helm
-    check_install_tiller
-    eval '$(helm_env "$@")'
-    start_tiller
-    cd "${CURRENT_FOLDER}"
-    # open user's preferred shell
-    # shellcheck disable=SC2236
-    if [[ ! -z "$SHELL" ]]; then
+start)
+  check_helm
+  check_install_tiller
+  eval '$(helm_env "$@")'
+  start_tiller
+  cd "${CURRENT_FOLDER}"
+  # open user's preferred shell
+  # shellcheck disable=SC2236
+  if [[ ! -z "$SHELL" ]]; then
       $SHELL
-    else
+  else
       bash
-    fi
-    stop_tiller
-    ;;
-  start-ci)
-    check_helm
-    check_install_tiller
-    echo "Set the following vars to use tiller:" &> $REDIRECT
-    helm_env "$@" &> $REDIRECT
-    start_tiller
-    ;;
-  env)
+  fi
+  stop_tiller
+  ;;
+start-ci)
+  check_helm
+  check_install_tiller
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo "Set the following vars to use tiller:"
     helm_env "$@"
-    ;;
-  run)
-    check_helm
-    check_install_tiller
-    start_args=()
-    args=()
-    while [[ $# -gt 0 ]]; do
-      case "$1" in
-        -- ) start_args=( "${args[@]}" ); args=(); shift ;;
-        * ) args+=("${1}"); shift ;;
-      esac
-    done
-    trap stop_tiller EXIT
-    eval '$(helm_env "${start_args[@]}")'
-    create_ns "${start_args[@]}" "${args[@]}"
-    run_tiller "${start_args[@]}"
-    # shellcheck disable=SC2145
-    echo -e "Running: ${args[@]}\n" &> $REDIRECT
-    "${args[@]}"
-    ;;
-  stop)
-    stop_tiller
-    ;;
-  *)
-    usage "$@"
-    ;;
+  else
+    helm_env "$@" &> /dev/null
+  fi
+  start_tiller
+  ;;
+env)
+  helm_env "$@"
+  ;;
+run)
+  check_helm
+  check_install_tiller
+  start_args=()
+  args=()
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -- ) start_args=( "${args[@]}" ); args=(); shift ;;
+      * ) args+=("${1}"); shift ;;
+    esac
+  done
+  trap stop_tiller EXIT
+  eval '$(helm_env "${start_args[@]}")'
+  create_ns "${start_args[@]}" "${args[@]}"
+  run_tiller "${start_args[@]}"
+  # shellcheck disable=SC2145
+  if [[ "${HELM_TILLER_SILENT}" == "false" ]]; then
+    echo Running: "${args[@]}"
+    echo
+  fi
+  "${args[@]}"
+  ;;
+stop)
+  stop_tiller
+  ;;
+*)
+  usage "$@"
+  ;;
 esac
