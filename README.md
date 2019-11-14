@@ -8,7 +8,9 @@
 
 Blog post [Tillerless Helm v2](https://rimusz.net/tillerless-helm/) on why `Tillerless Helm` is needed and what it solves.
 
-**Note:** Helm 3.0.0 has been [released](https://helm.sh/blog/helm-3-released/), check it out my blog post [How to migrate from Helm v2 to Helm v3](https://rimusz.net/how-to-migrate-from-helm-v2-to-helm-v3).
+## Migration to Helm v3
+
+Helm 3.0.0 has been [released](https://helm.sh/blog/helm-3-released/), check it out my blog post [How to migrate from Helm v2 to Helm v3](https://rimusz.net/how-to-migrate-from-helm-v2-to-helm-v3).
 
 ## Installation
 
