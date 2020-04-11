@@ -9,6 +9,7 @@ set -o errexit
 : "${HELM_TILLER_LOGS:=false}"
 : "${HELM_TILLER_LOGS_DIR:=/dev/null}"
 : "${HELM_TILLER_HISTORY_MAX:=20}"
+: "${HELM_TILLER_PKG_BASE_URL:=https://storage.googleapis.com/kubernetes-helm}
 : "${CREATE_NAMESPACE_IF_MISSING:=true}"
 
 CURRENT_FOLDER=$(pwd)
@@ -45,6 +46,7 @@ function usage() {
     'HELM_TILLER_LOGS=true' - store Tiller logs in '$HOME/.helm/plugins/helm-tiller/logs'.
     'HELM_TILLER_LOGS_DIR=/some_folder/tiller.logs' - set a specific folder/file for Tiller logs.
     'HELM_TILLER_HISTORY_MAX=20' - change maximum number of releases kept in release history by Tiller.
+    'HELM_TILLER_PKG_BASE_URL=https://storage.googleapis.com/kubernetes-helm' - change source location for Tiller package. Requires Helm >= 2.11.
     'CREATE_NAMESPACE_IF_MISSING=false' - indicate whether the namespace should be created if it does not exist.
 
   Example use with the set namespace:

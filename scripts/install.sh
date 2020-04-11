@@ -26,10 +26,10 @@ os="$(echo "${OS}" | tr '[A-Z]' '[a-z]')"
 
 if [[ ${COMPARE_VERSION} -ge 0 ]]; then
   # Helm v2.11 and versions above
-  URL=https://storage.googleapis.com/kubernetes-helm/helm-v"${VERSION}"-"${os}"-amd64.tar.gz
+  URL=${HELM_TILLER_PKG_BASE_URL}/helm-v"${VERSION}"-"${os}"-amd64.tar.gz
 else
   # Helm v2.10 and versions below
-  URL=https://storage.googleapis.com/helm-tiller/tiller-v"${VERSION}"_"${OS}"_x86_64.tgz
+  URL=${HELM_TILLER_PKG_BASE_URL}/tiller-v"${VERSION}"_"${OS}"_x86_64.tgz
 fi
 
 if [ "$URL" = "" ]
