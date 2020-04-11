@@ -9,7 +9,7 @@ set -o errexit
 : "${HELM_TILLER_LOGS:=false}"
 : "${HELM_TILLER_LOGS_DIR:=/dev/null}"
 : "${HELM_TILLER_HISTORY_MAX:=20}"
-: "${HELM_TILLER_PKG_BASE_URL:=https://storage.googleapis.com/kubernetes-helm}
+: "${HELM_TILLER_PKG_BASE_URL:=https://storage.googleapis.com/kubernetes-helm}"
 : "${CREATE_NAMESPACE_IF_MISSING:=true}"
 
 CURRENT_FOLDER=$(pwd)
